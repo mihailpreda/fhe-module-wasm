@@ -11,30 +11,37 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen(module = "/js/bindings.js")]
 extern "C" {
-    async fn initialize() -> JsValue;
-    fn encrypt(text: String);
+    async fn rust_initialize() -> JsValue;
+    fn rust_set_encryption_scheme(scheme: String) -> JsValue;
+    fn rust_setup_context(
+        poly_modulus_degree: i32,
+        bit_sizes: Vec<i32>,
+        bit_size: i32,
+        security_level: String,
+    ) -> JsValue;
+    fn rust_encrypt();
 }
 
 #[wasm_bindgen]
-pub fn enc(text: String) {
-    encrypt(text);
+pub async fn initialize() -> JsValue {
+    let result = rust_initialize().await;
+    result
+}
+#[wasm_bindgen]
+pub fn set_scheme(scheme: String) {
+    rust_set_encryption_scheme(scheme);
+}
+#[wasm_bindgen]
+pub fn setup_context(
+    poly_modulus_degree: i32,
+    bit_sizes: Vec<i32>,
+    bit_size: i32,
+    security_level: String,
+) {
+    rust_setup_context(poly_modulus_degree, bit_sizes, bit_size, security_level);
 }
 
 #[wasm_bindgen]
-pub async fn init() {
-    let result = initialize().await;
+pub fn encrypt() {
+    rust_encrypt();
 }
-
-// This is like the `main` function, except for JavaScript.
-/* #[wasm_bindgen(start)]
-pub fn main_js() -> Result<(), JsValue> {
-    // This provides better error messages in debug mode.
-    // It's disabled in release mode so it doesn't bloat up the file size.
-    #[cfg(debug_assertions)]
-    console_error_panic_hook::set_once();
-
-    // Your code goes here!
-    console::log_1(&JsValue::from_str("Hello world!"));
-
-    Ok(())
-} */
