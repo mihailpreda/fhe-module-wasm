@@ -2,12 +2,13 @@ import SEAL from 'node-seal';
 let seal;
 let parms;
 let context;
-export const rust_initialize = async () => {
+const MAX_ACCURATE_INTEGER_VALUE= 516000;
+export const js_to_rust_initialize = async () => {
     seal = await SEAL();
     return seal;
 }
 
-export const rust_set_encryption_scheme = (scheme) =>{
+export const js_to_rust_set_encryption_scheme = (scheme) =>{
     switch (scheme) {
         case 'bfv':
             parms = seal.EncryptionParameters(seal.SchemeType.bfv);
@@ -25,7 +26,7 @@ export const rust_set_encryption_scheme = (scheme) =>{
 
 }
 
-export const rust_setup_context=(polyModulusDegree,bitSizes,bitSize, securityLevel) =>{
+export const js_to_rust_setup_context=(polyModulusDegree,bitSizes,bitSize, securityLevel) =>{
   switch (securityLevel) {
       case 'tc128':
         securityLevel = seal.SecurityLevel.tc128;
@@ -67,41 +68,44 @@ export const rust_setup_context=(polyModulusDegree,bitSizes,bitSize, securityLev
     return context;
 }
  
-export const rust_generate_keys=() =>{
+export const js_to_rust_generate_keys=() =>{
     const keyGenerator = seal.KeyGenerator(context);
     const publicKey = keyGenerator.createPublicKey();
     const secretKey = keyGenerator.secretKey();
     return [publicKey,secretKey];
 }
-export const rust_encrypt = () => {
+export const js_to_rust_encrypt = (plainText, publicKey) => {
     const encoder = seal.BatchEncoder(context);
-    const keyGenerator = seal.KeyGenerator(context);
-    const publicKey = keyGenerator.createPublicKey();
-    const secretKey = keyGenerator.secretKey();
     const encryptor = seal.Encryptor(context, publicKey);
-    const decryptor = seal.Decryptor(context, secretKey);
-    const evaluator = seal.Evaluator(context);
     // Create data to be encrypted
-    const array = Int32Array.from([1, 2, 3, 4, 5]);
+    const array = Int32Array.from(plainText);
 
     // Encode the Array
-    const plainText = encoder.encode(array) ;
+    const encodedPlainText = encoder.encode(array);
 
     // Encrypt the PlainText
-    const cipherText = encryptor.encrypt(plainText);
+    const cipherText = encryptor.encrypt(encodedPlainText);
 
-    // Add the CipherText to itself and store it in the destination parameter (itself)
-    evaluator.add(cipherText, cipherText, cipherText); // Op (A), Op (B), Op (Dest)
+    return cipherText.saveArray();
+    
+}
 
-    // Or create return a new cipher with the result (omitting destination parameter)
-    // const cipher2x = evaluator.add(cipherText, cipherText)
+export const js_to_rust_decrypt = (cipherText, secretKey) => {
+    //need to create a new CipherText with current context
+    const preparedCipherText = seal.CipherText({ context: context });
+ 
+    preparedCipherText.loadArray(context,cipherText);
+   
+    const encoder = seal.BatchEncoder(context);
+    const decryptor = seal.Decryptor(context, secretKey);
 
     // Decrypt the CipherText
-    const decryptedPlainText = decryptor.decrypt(cipherText);
+    const decryptedPlainText = decryptor.decrypt(preparedCipherText);
 
     // Decode the PlainText
     const decodedArray = encoder.decode(decryptedPlainText);
 
-    console.log('decodedArray', decodedArray);
+    // console.log('decodedArray', decodedArray);
+    return decodedArray;
     
 }
