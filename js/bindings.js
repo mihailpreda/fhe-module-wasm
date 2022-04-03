@@ -201,6 +201,35 @@ export const js_to_rust_add_plain = (cipherText, plainText) => {
   return result.saveArray();
 };
 
+
+export const js_to_rust_sub_plain = (cipherText, plainText) => {
+  //need to create a new CipherText with current context
+  const preparedCipherText = seal.CipherText({ context: context });
+  const encoder = seal.BatchEncoder(context);
+  const preparedPlainText = encoder.encode(plainText);
+  const result = seal.CipherText({ context: context });
+  preparedCipherText.loadArray(context, cipherText);
+  
+  const evaluator = seal.Evaluator(context);
+  evaluator.subPlain(preparedCipherText, preparedPlainText, result);
+
+  return result.saveArray();
+};
+
+
+export const js_to_rust_multiply_plain = (cipherText, plainText) => {
+  //need to create a new CipherText with current context
+  const preparedCipherText = seal.CipherText({ context: context });
+  const encoder = seal.BatchEncoder(context);
+  const preparedPlainText = encoder.encode(plainText);
+  const result = seal.CipherText({ context: context });
+  preparedCipherText.loadArray(context, cipherText);
+  
+  const evaluator = seal.Evaluator(context);
+  evaluator.multiplyPlain(preparedCipherText, preparedPlainText, result);
+
+  return result.saveArray();
+};
 // export const js_to_rust_sum_elements = (cipherText1, scheme) => {
 //   let schemeType;
 //   switch (scheme) {

@@ -17,7 +17,7 @@ import("../pkg/index.js").then(async module => {
     // result = module.rust_square_cipher(encrypted);
     // result = module.rust_exponentiate_cipher(encrypted,2);
     // result = module.rust_negate_cipher(result)
-    result = module.rust_add_plain(encrypted,data2);
+    // result = module.rust_multiply_plain(encrypted,data2);
     
     const decrypted = module.rust_decrypt(result,secretKey);
     console.log('decrypted',decrypted);
