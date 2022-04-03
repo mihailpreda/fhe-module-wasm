@@ -4,12 +4,22 @@ import("../pkg/index.js").then(async module => {
     module.rust_set_scheme('bfv');
     module.rust_setup_context(4096,[36,36,37],20,'tc128')
     const[publicKey,secretKey] = module.rust_generate_keys();
-    const data = [1,5,7,899,516000];
+    const data = [6,5,4,3,2,1];
     console.log('plain',data)
     const encrypted = module.rust_encrypt(data,publicKey);
     console.log('encrypted',encrypted);
-    const decrypted = module.rust_decrypt(encrypted,secretKey);
+    const data2=[100,200,300];
+    const encrypted2 = module.rust_encrypt(data2,publicKey);
+    let result;
+    result = module.rust_add_ciphers(encrypted,encrypted2);
+    // result = module.rust_sub_ciphers(encrypted,encrypted2);
+    // result = module.rust_multiply_ciphers(encrypted,encrypted2);
+    // result = module.rust_square_cipher(encrypted);
+    // result = module.rust_exponentiate_cipher(encrypted,2);
+    // result = module.rust_negate_cipher(result)
+    result = module.rust_add_plain(encrypted,data2);
+    
+    const decrypted = module.rust_decrypt(result,secretKey);
     console.log('decrypted',decrypted);
  
-  
 }).catch(console.error);

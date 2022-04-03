@@ -22,6 +22,14 @@ extern "C" {
     fn js_to_rust_generate_keys() -> Vec<JsValue>;
     fn js_to_rust_encrypt(array: Vec<i32>, public_key: JsValue) -> JsValue;
     fn js_to_rust_decrypt(array: Vec<i32>, secret_key: JsValue) -> JsValue;
+    fn js_to_rust_add_ciphers(cipher_text1: Vec<i32>, cipher_text2: Vec<i32>) -> JsValue;
+    fn js_to_rust_sub_ciphers(cipher_text1: Vec<i32>, cipher_text2: Vec<i32>) -> JsValue;
+    fn js_to_rust_multiply_ciphers(cipher_text1: Vec<i32>, cipher_text2: Vec<i32>) -> JsValue;
+    fn js_to_rust_square_cipher(cipher_text1: Vec<i32>) -> JsValue;
+    fn js_to_rust_exponentiate_cipher(cipher_text1: Vec<i32>, power: i32) -> JsValue;
+    fn js_to_rust_negate_cipher(cipher_text1: Vec<i32>) -> JsValue;
+    fn js_to_rust_add_plain(cipher_text: Vec<i32>, plain_text: Vec<i32>) -> JsValue;
+    // fn js_to_rust_sum_elements(cipher_text1: Vec<i32>, scheme: String) -> JsValue;
 }
 
 #[wasm_bindgen]
@@ -60,3 +68,49 @@ pub fn rust_decrypt(array: Vec<i32>, secret_key: JsValue) -> JsValue {
     let result = js_to_rust_decrypt(array, secret_key);
     result
 }
+
+#[wasm_bindgen]
+pub fn rust_add_ciphers(cipher_text1: Vec<i32>, cipher_text2: Vec<i32>) -> JsValue {
+    let result = js_to_rust_add_ciphers(cipher_text1, cipher_text2);
+    result
+}
+
+#[wasm_bindgen]
+pub fn rust_sub_ciphers(cipher_text1: Vec<i32>, cipher_text2: Vec<i32>) -> JsValue {
+    let result = js_to_rust_sub_ciphers(cipher_text1, cipher_text2);
+    result
+}
+#[wasm_bindgen]
+pub fn rust_multiply_ciphers(cipher_text1: Vec<i32>, cipher_text2: Vec<i32>) -> JsValue {
+    let result = js_to_rust_multiply_ciphers(cipher_text1, cipher_text2);
+    result
+}
+
+#[wasm_bindgen]
+pub fn rust_square_cipher(cipher_text1: Vec<i32>) -> JsValue {
+    let result = js_to_rust_square_cipher(cipher_text1);
+    result
+}
+
+#[wasm_bindgen]
+pub fn rust_exponentiate_cipher(cipher_text1: Vec<i32>, power: i32) -> JsValue {
+    let result = js_to_rust_exponentiate_cipher(cipher_text1, power);
+    result
+}
+
+#[wasm_bindgen]
+pub fn rust_negate_cipher(cipher_text1: Vec<i32>) -> JsValue {
+    let result = js_to_rust_negate_cipher(cipher_text1);
+    result
+}
+
+#[wasm_bindgen]
+pub fn rust_add_plain(cipher_text: Vec<i32>, plain_text: Vec<i32>) -> JsValue {
+    let result = js_to_rust_add_plain(cipher_text, plain_text);
+    result
+}
+// #[wasm_bindgen]
+// pub fn rust_sum_elements(cipher_text1: Vec<i32>, scheme: String) -> JsValue {
+//     let result = js_to_rust_sum_elements(cipher_text1, scheme);
+//     result
+// }
