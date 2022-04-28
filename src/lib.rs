@@ -31,7 +31,11 @@ extern "C" {
     fn js_to_rust_add_plain(cipher_text: Vec<i32>, plain_text: Vec<i32>) -> JsValue;
     fn js_to_rust_sub_plain(cipher_text: Vec<i32>, plain_text: Vec<i32>) -> JsValue;
     fn js_to_rust_multiply_plain(cipher_text: Vec<i32>, plain_text: Vec<i32>) -> JsValue;
-    // fn js_to_rust_sum_elements(cipher_text1: Vec<i32>, scheme: String) -> JsValue;
+    fn js_to_rust_sum_elements(cipher_text1: Vec<i32>, scheme: String) -> JsValue;
+    fn js_to_rust_deallocate_context();
+    fn js_to_rust_deallocate_parameters();
+    fn js_to_rust_deallocate_seal_library();
+    fn js_to_rust_deallocate_module();
 }
 
 #[wasm_bindgen]
@@ -122,6 +126,26 @@ pub fn rust_sub_plain(cipher_text: Vec<i32>, plain_text: Vec<i32>) -> JsValue {
 pub fn rust_multiply_plain(cipher_text: Vec<i32>, plain_text: Vec<i32>) -> JsValue {
     let result = js_to_rust_multiply_plain(cipher_text, plain_text);
     result
+}
+
+#[wasm_bindgen]
+pub fn rust_deallocate_context() {
+    js_to_rust_deallocate_context()
+}
+
+#[wasm_bindgen]
+pub fn rust_deallocate_parameters() {
+    js_to_rust_deallocate_parameters()
+}
+
+#[wasm_bindgen]
+pub fn rust_deallocate_seal_library() {
+    js_to_rust_deallocate_seal_library()
+}
+
+#[wasm_bindgen]
+pub fn rust_deallocate_module() {
+    js_to_rust_deallocate_module()
 }
 
 // #[wasm_bindgen]

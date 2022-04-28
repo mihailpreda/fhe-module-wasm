@@ -2,7 +2,7 @@ import SEAL from "node-seal";
 let seal;
 let parms;
 let context;
-const MAX_ACCURATE_INTEGER_VALUE = 516000;
+
 export const js_to_rust_initialize = async () => {
   seal = await SEAL();
   return seal;
@@ -290,7 +290,6 @@ export const js_to_rust_sub_plain = (cipherText, plainText) => {
  return computedResult;
 };
 
-
 export const js_to_rust_multiply_plain = (cipherText, plainText) => {
   //need to create a new CipherText with current context
   const preparedCipherText = seal.CipherText({ context: context });
@@ -313,6 +312,24 @@ export const js_to_rust_multiply_plain = (cipherText, plainText) => {
 
  return computedResult;
 };
+
+
+
+export const js_to_rust_deallocate_context=() =>{
+  context.delete();
+}
+export const js_to_rust_deallocate_parameters=() =>{
+  parms.delete();
+}
+export const js_to_rust_deallocate_seal_library=() =>{
+  seal.delete();
+}
+export const js_to_rust_deallocate_module=() =>{
+  js_to_rust_deallocate_context();
+  js_to_rust_deallocate_parameters();
+  seal = null;
+}
+ 
 // export const js_to_rust_sum_elements = (cipherText1, scheme) => {
 //   let schemeType;
 //   switch (scheme) {
