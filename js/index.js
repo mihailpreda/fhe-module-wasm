@@ -4,6 +4,7 @@ import("../pkg/index.js")
     module.rust_set_scheme("bfv");
     module.rust_setup_context(4096, [36, 36, 37], 20, "tc128");
     const [publicKey, secretKey] = module.rust_generate_keys();
+    console.log(publicKey, secretKey)
     const data = [6, 5, 4, 3, 2, 1];
     console.log("plain", data);
     const encrypted = module.rust_encrypt(data, publicKey);
