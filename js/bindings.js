@@ -53,8 +53,11 @@ export const js_to_rust_setup_context = (
     seal.CoeffModulus.Create(polyModulusDegree, Int32Array.from(bitSizes))
   );
 
-  // Set the PlainModulus to a prime of bitSize 20.
-  parms.setPlainModulus(seal.PlainModulus.Batching(polyModulusDegree, bitSize));
+  if(parms.scheme!==seal.SchemeType.ckks){
+
+    // Set the PlainModulus to a prime of bitSize 20.
+    parms.setPlainModulus(seal.PlainModulus.Batching(polyModulusDegree, bitSize));
+  }
 
   context = seal.Context(
     parms, // Encryption Parameters
@@ -266,7 +269,6 @@ export const js_to_rust_add_plain = (cipherText, plainText) => {
  return computedResult;
 };
 
-
 export const js_to_rust_sub_plain = (cipherText, plainText) => {
   //need to create a new CipherText with current context
   const preparedCipherText = seal.CipherText({ context: context });
@@ -313,17 +315,18 @@ export const js_to_rust_multiply_plain = (cipherText, plainText) => {
  return computedResult;
 };
 
-
-
 export const js_to_rust_deallocate_context=() =>{
   context.delete();
 }
+
 export const js_to_rust_deallocate_parameters=() =>{
   parms.delete();
 }
+
 export const js_to_rust_deallocate_seal_library=() =>{
   seal.delete();
 }
+
 export const js_to_rust_deallocate_module=() =>{
   js_to_rust_deallocate_context();
   js_to_rust_deallocate_parameters();
