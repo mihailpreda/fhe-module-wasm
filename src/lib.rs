@@ -19,6 +19,11 @@ extern "C" {
         bit_size: i32,
         security_level: String,
     ) -> JsValue;
+    fn js_to_rust_fast_setup(
+        scheme: String,
+        security_level: String,
+        processing_speed: String,
+    ) -> Vec<JsValue>;
     fn js_to_rust_generate_keys() -> Vec<JsValue>;
     fn js_to_rust_encrypt(array: Vec<i32>, public_key: JsValue) -> JsValue;
     fn js_to_rust_decrypt(array: Vec<i32>, secret_key: JsValue) -> JsValue;
@@ -55,6 +60,10 @@ pub fn rust_setup_context(
     security_level: String,
 ) {
     js_to_rust_setup_context(poly_modulus_degree, bit_sizes, bit_size, security_level);
+}
+#[wasm_bindgen]
+pub fn rust_fast_setup(scheme: String, security_level: String, processing_speed: String) {
+    js_to_rust_fast_setup(scheme, security_level, processing_speed);
 }
 
 #[wasm_bindgen]
