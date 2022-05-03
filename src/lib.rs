@@ -20,11 +20,13 @@ extern "C" {
         bit_sizes: Vec<i32>,
         bit_size: i32,
         security_level: String,
+        precision: i32,
     ) -> JsValue;
     fn js_to_rust_fast_setup(
         scheme: String,
         security_level: String,
         processing_speed: String,
+        precision: i32,
     ) -> Vec<JsValue>;
     /********************************************************************************************************* */
     /* BASIC */
@@ -76,12 +78,24 @@ pub fn rust_setup_context(
     bit_sizes: Vec<i32>,
     bit_size: i32,
     security_level: String,
+    precision: i32,
 ) {
-    js_to_rust_setup_context(poly_modulus_degree, bit_sizes, bit_size, security_level);
+    js_to_rust_setup_context(
+        poly_modulus_degree,
+        bit_sizes,
+        bit_size,
+        security_level,
+        precision,
+    );
 }
 #[wasm_bindgen]
-pub fn rust_fast_setup(scheme: String, security_level: String, processing_speed: String) {
-    js_to_rust_fast_setup(scheme, security_level, processing_speed);
+pub fn rust_fast_setup(
+    scheme: String,
+    security_level: String,
+    processing_speed: String,
+    precision: i32,
+) {
+    js_to_rust_fast_setup(scheme, security_level, processing_speed, precision);
 }
 /********************************************************************************************************* */
 /* BASIC */
