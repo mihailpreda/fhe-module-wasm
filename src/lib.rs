@@ -185,8 +185,8 @@ pub fn rust_deallocate_module() {
 /********************************************************************************************************* */
 /* EXPERIMENTAL */
 /********************************************************************************************************* */
-#[wasm_bindgen]
-pub fn rust_sum_elements(cipher_text1: String, scheme: String) -> JsValue {
-    let result = js_to_rust_sum_elements(cipher_text1, scheme);
-    result
-}
+// #[wasm_bindgen]
+// pub fn rust_sum_elements(cipher_text1: String, scheme: String) -> JsValue {
+//     let result = js_to_rust_sum_elements(cipher_text1, scheme);
+//     result
+// }
