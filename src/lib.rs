@@ -54,8 +54,8 @@ extern "C" {
     /********************************************************************************************************* */
     fn js_to_rust_deallocate_context();
     fn js_to_rust_deallocate_parameters();
-    fn js_to_rust_deallocate_seal_library();
-    fn js_to_rust_deallocate_module();
+    fn js_to_rust_deallocate_seal();
+    fn js_to_rust_deallocate_library();
     /********************************************************************************************************* */
     /* EXPERIMENTAL */
     fn js_to_rust_sum_elements(cipher_text1: String, scheme: String) -> JsValue;
@@ -188,13 +188,13 @@ pub fn rust_deallocate_parameters() {
 }
 
 #[wasm_bindgen]
-pub fn rust_deallocate_seal_library() {
-    js_to_rust_deallocate_seal_library()
+pub fn rust_deallocate_seal() {
+    js_to_rust_deallocate_seal()
 }
 
 #[wasm_bindgen]
-pub fn rust_deallocate_module() {
-    js_to_rust_deallocate_module()
+pub fn rust_deallocate_library() {
+    js_to_rust_deallocate_library()
 }
 /********************************************************************************************************* */
 /* EXPERIMENTAL */
