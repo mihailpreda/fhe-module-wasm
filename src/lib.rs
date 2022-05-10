@@ -21,13 +21,13 @@ extern "C" {
         bit_size: i32,
         security_level: String,
         precision: i32,
-    ) -> JsValue;
+    );
     fn js_to_rust_fast_setup(
         scheme: String,
         security_level: String,
         processing_speed: String,
         precision: i32,
-    ) -> Vec<JsValue>;
+    );
     /********************************************************************************************************* */
     /* BASIC */
     /********************************************************************************************************* */
