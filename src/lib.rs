@@ -1,4 +1,3 @@
-use js_sys::Promise;
 use wasm_bindgen::prelude::*;
 
 // When the `wee_alloc` feature is enabled, this uses `wee_alloc` as the global
